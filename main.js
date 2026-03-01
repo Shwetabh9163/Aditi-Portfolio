@@ -199,28 +199,44 @@ carousel && carousel.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-/* ─── SHOWCASE VIDEO CARDS — click to play ────────────────── */
-// If a .card-media contains a <video> element, clicking the play icon plays it
-document.querySelectorAll('.carousel-card').forEach(card => {
-  const video = card.querySelector('video');
-  const playIcon = card.querySelector('.play-icon');
-  if (!video || !playIcon) return;
+/* ─── SHOWCASE VIDEO CARDS — click to play (one at a time, with audio) ── */
+// Collect all showcase video cards
+const allVideoCards = [...document.querySelectorAll('.carousel-card')].map(card => ({
+  card,
+  video: card.querySelector('video'),
+  playIcon: card.querySelector('.play-icon'),
+})).filter(c => c.video && c.playIcon);
 
-  playIcon.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (video.paused) {
-      video.play();
-      playIcon.style.opacity = '0';
-    } else {
+// Pause every video except the one being played
+function pauseAllVideosExcept(activeVideo) {
+  allVideoCards.forEach(({ video, playIcon }) => {
+    if (video !== activeVideo && !video.paused) {
       video.pause();
+      video.currentTime = 0;
       playIcon.style.opacity = '1';
     }
   });
+}
 
-  video.addEventListener('click', () => {
-    if (video.paused) { video.play(); playIcon.style.opacity = '0'; }
-    else              { video.pause(); playIcon.style.opacity = '1'; }
+function toggleVideo(video, playIcon) {
+  if (video.paused) {
+    pauseAllVideosExcept(video);
+    video.muted = false;           // ensure audio is on
+    video.play();
+    playIcon.style.opacity = '0';
+  } else {
+    video.pause();
+    playIcon.style.opacity = '1';
+  }
+}
+
+allVideoCards.forEach(({ video, playIcon }) => {
+  playIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleVideo(video, playIcon);
   });
+
+  video.addEventListener('click', () => toggleVideo(video, playIcon));
 
   video.addEventListener('ended', () => { playIcon.style.opacity = '1'; });
 });
