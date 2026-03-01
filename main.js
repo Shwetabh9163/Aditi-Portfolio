@@ -225,11 +225,24 @@ document.querySelectorAll('.carousel-card').forEach(card => {
   video.addEventListener('ended', () => { playIcon.style.opacity = '1'; });
 });
 
-/* ─── HERO VIDEO SUPPORT ──────────────────────────────────── */
-const heroVideo = document.querySelector('.hero-video');
-if (heroVideo) {
-  heroVideo.muted   = true;
-  heroVideo.loop    = true;
-  heroVideo.playsInline = true;
-  heroVideo.play().catch(() => {});   // silently fail if autoplay blocked
-}
+/* ─── MAGNETIC BUTTON HOVER ──────────────────────────────── */
+// Buttons subtly follow cursor on hover (max 6px shift)
+const magneticBtns = document.querySelectorAll(
+  '.nav-cta, .cta-btn, .cta-email, .social-btn, #hero-cta, .btn-primary, .btn-outline, .btn-sm, .carousel-btn'
+);
+
+magneticBtns.forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const maxShift = 6;
+    const dx = (x / rect.width) * maxShift * 2;
+    const dy = (y / rect.height) * maxShift * 2;
+    btn.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});

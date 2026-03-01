@@ -1444,52 +1444,12 @@ body {
   margin: 0 auto;
 }
 
-/* Animated gradient for the hero name */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.hero-name {
-  /* keep existing rules but enable animated gradient */
-  background-image: linear-gradient(90deg, #F7B7A3 0%, #E38D7A 30%, #D46A6A 60%, #FAD4C0 100%);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 6s ease infinite;
-}
-
 .cta-headline {
   font-family: var(--font-serif);
   font-size: clamp(40px, 6vw, 76px);
   font-weight: 300;
   line-height: 1.1;
   color: var(--text-primary);
-
-/* Decorative floating orbs in the hero for a stylish, modern look */
-.hero-orbs {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-.hero-orbs .orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(18px);
-  opacity: 0.45;
-  transform: translate3d(0,0,0);
-}
-.orb-1 { width: 220px; height: 220px; background: radial-gradient(circle at 30% 30%, rgba(247,183,163,.45), rgba(212,106,106,0.12)); top: 8%; left: 6%; animation: floatY 8s ease-in-out infinite; }
-.orb-2 { width: 160px; height: 160px; background: radial-gradient(circle at 50% 50%, rgba(255,212,192,.35), rgba(227,141,122,0.08)); bottom: 12%; right: 8%; animation: floatY 10s ease-in-out infinite reverse; }
-.orb-3 { width: 100px; height: 100px; background: radial-gradient(circle at 50% 50%, rgba(180,140,190,.25), rgba(120,110,200,0.06)); top: 28%; right: 20%; animation: floatY 12s ease-in-out infinite; }
-
-@keyframes floatY {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-18px); }
-  100% { transform: translateY(0); }
-}
   margin-bottom: 24px;
 }
 
